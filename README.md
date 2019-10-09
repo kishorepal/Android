@@ -1,9 +1,22 @@
-Popular Movies
+<h4><b>Popular Movies:</b></h4>
 
-Here is a fully functional and colorful android app which I made from scratch for Android Developer Nanodegree program. This app reveals the power of adaptive UI both for phone and tablet devices.
-Popular Movies was highly evaluated by certified Udacity code reviewer and was graded as "Exceeds Specifications".
-Features
+This ia a Application Where user can Show Popular Movie and Top Rated Movie.
 
-With the app, you can:
 
-Discover the most popular, the most rated or the highest rated movies
+<h4><b>What Can be learn from this Code:</b></h4>
+In this Project, I used the best practice of a Project Architecture. I used my J2EE concept in Android Development.
+
+
+
+
+
+<h4><b>Used Android Components:</b></h4>
+        1. Activity
+        2. Fragments
+        3. LiveData
+        4. Retrofit
+        5. ViewModel
+        6. RecyclerView
+        7. CardView
+
+
