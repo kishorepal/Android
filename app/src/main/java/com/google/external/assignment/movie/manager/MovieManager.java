@@ -16,6 +16,7 @@ import retrofit2.Retrofit;
 public class MovieManager extends  BaseManager {
 
     private MovieManagerCallBack mCallBack;
+    private IMovieDBApi apiInvokeService;
 
     private static final String TAG = MovieManager.class.getSimpleName();
 
@@ -23,12 +24,20 @@ public class MovieManager extends  BaseManager {
     private static final String OPTION_POPULAR = "popular";
     private static final String OPTION_TOP_RATED = "top_rated";
 
-    public MovieManager(MovieManagerCallBack callBack) {
+    private MovieManager(MovieManagerCallBack callBack) {
 
         this.mCallBack = callBack;
+        apiInvokeService =  getRetrofitClient().create(IMovieDBApi.class);
     }
 
+    private static MovieManager mInstance;
 
+    public static synchronized MovieManager getInstance(MovieManagerCallBack callBack) {
+        if(mInstance == null) {
+            mInstance = new MovieManager(callBack);
+        }
+        return mInstance;
+    }
 
     @Override
     protected String getBaseAPIUrl() {
@@ -48,20 +57,8 @@ public class MovieManager extends  BaseManager {
         return (Map)queryParams;
     }
 
-    public void getMovieInfo() throws Exception {
-
-
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getBaseAPIUrl())
-                .addConverterFactory(getConverterFactory())
-                .build();
-
-
-        IMovieDBApi service = retrofit.create(IMovieDBApi.class);
-
-        Call<Response> call = service.GetMovieList("popular", (Map)getQueryParams());
-
+    public void getMovieInfo(String sortOption) throws Exception {
+        Call<Response> call = apiInvokeService.GetMovieList(sortOption, (Map)getQueryParams());
         call.enqueue(new Callback<Response>() {
             @Override
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {

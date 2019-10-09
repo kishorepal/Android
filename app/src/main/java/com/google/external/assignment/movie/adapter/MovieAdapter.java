@@ -1,28 +1,34 @@
 package com.google.external.assignment.movie.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.external.assignment.movie.R;
+import com.google.external.assignment.movie.common.utilities.PicassoUtility;
 import com.google.external.assignment.movie.model.moviedb.Movie;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterHolder> {
 
-    private List<Movie> mItems;
+
+    private List<Movie> mItems = new ArrayList<>();
     private Context mContext;
 
-    public MovieAdapter(Context context, List<Movie> items) {
+    public MovieAdapter(Context context) {
         this.mContext = context;
-        this.mItems = items;
+       //this.mItems = items;
     }
 
     @NonNull
@@ -35,6 +41,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     @Override
     public void onBindViewHolder(@NonNull MovieAdapterHolder movieAdapterHolder, int position) {
         movieAdapterHolder.txtTitle.setText(mItems.get(position).getTitle());
+        PicassoUtility.getInstance(mContext).loadImage(mItems.get(position).getPosterPath(), movieAdapterHolder.imageView);
     }
 
     @Override
@@ -42,13 +49,21 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         return mItems.size();
     }
 
+
+    public void setMovies(List<Movie> movies) {
+        this.mItems = movies;
+        notifyDataSetChanged();
+    }
+
     public class MovieAdapterHolder extends RecyclerView.ViewHolder {
 
         TextView txtTitle;
+        ImageView imageView;
 
         public MovieAdapterHolder(@NonNull View itemView) {
             super(itemView);
             txtTitle = itemView.findViewById(R.id.txt_title);
+            imageView = itemView.findViewById(R.id.img_poster);
         }
     }
 }
